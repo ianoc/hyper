@@ -56,6 +56,14 @@ pub(super) enum Alpn {
 */
 
 impl Destination {
+
+    /// create a new destination from a Uri
+    pub fn new(uri: &Uri) -> Destination {
+        Destination {
+            uri: uri.clone()
+        }
+    }
+
     /// Get the protocol scheme.
     #[inline]
     pub fn scheme(&self) -> &str {
