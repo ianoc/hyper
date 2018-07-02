@@ -1,5 +1,6 @@
 use std::fmt::{self, Write};
 use std::mem;
+use std::str;
 
 use bytes::{BytesMut, Bytes};
 use http::header::{self, Entry, HeaderName, HeaderValue};
@@ -41,7 +42,7 @@ where
         let mut headers_indices: [HeaderIndices; MAX_HEADERS] = unsafe { mem::uninitialized() };
         let (len, subject, version, headers_len) = {
             let mut headers: [httparse::Header; MAX_HEADERS] = unsafe { mem::uninitialized() };
-            trace!("Request.parse([Header; {}], [u8; {}])", headers.len(), buf.len());
+            trace!("Request.parse([Header; {}], [u8; {}] -- {})", headers.len(), buf.len(), str::from_utf8(&buf).unwrap());
             let mut req = httparse::Request::new(&mut headers);
             match req.parse(&buf)? {
                 httparse::Status::Complete(len) => {
